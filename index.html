@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle</title>
+  <link rel="icon" href="img/wordle-favicon.ico">
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="startup">
+    <img class="wordle-icon" src="https://www.nytimes.com/games-assets/v2/assets/wordle/page-icons/wordle-icon.svg" alt="wordle-icon">
+
+    <h1>Wordle</h1>
+
+    <div class="heading">
+      <h2>Get 6 chances to </h2>
+      <h2>guess a 5-letter word.</h2>
+    </div>
+    <button class="startBtn" type="button">Play</button>
+    <script>
+    </script>
+  </div>
+
+  <div id="game">
+    <div id="customAlert" class="alert hidden">
+      <p id="alertMessage">Not enough letters</p>
+    </div>
+
+    <div id="wordle">
+      <div id="gameBoard"></div>
+    </div>
+
+    <div id="keyboard"></div>
+  </div>
+  
+  <script src="data/wordList.js"></script>
+  <script src="data/possibleResponses.js"></script>
+  <script type="module" src="js/controls.js"></script>
+  <script type="module" src="js/keypress.js"></script>
+  <script type="module" src="js/gameboard.js"></script>
+  <script type="module" src="js/keyboard.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

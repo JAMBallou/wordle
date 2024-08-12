@@ -1,0 +1,296 @@
+html {
+    --empty-tile-color: #3a3a3c;
+    --filled-tile-color: #565758;
+    --incorrect-tile-color: rgb(58, 58, 60);
+    overflow: hidden;
+}
+
+body {
+    background-color: rgb(19, 19, 20);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Startup screen */
+@font-face {
+    font-family: "Karnak Pro Book";
+    src: url("fonts/KarnakPro-Book.ttf");
+}
+
+@font-face {
+    font-family: "Karnak Pro Condensed Black";
+    src: url("fonts/KarnakPro-CondensedBlack.ttf");
+}
+
+#game {
+    display: none;
+}
+
+#startup {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.wordle-icon {
+    margin-bottom: 12px;
+    height: 80px;
+}
+
+h1, h2 {
+    color: white;
+    margin: 0;
+    padding: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+h1 {
+    font-family: "Karnak Pro Condensed Black", sans-serif;
+    font-weight: 700;
+    font-size: 44px;
+    margin-bottom: 12px;
+}
+
+.heading {
+    font-family: "Karnak Pro Book", sans-serif;
+    font-weight: 100;
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+.startBtn {
+    background-color: white;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    height: 48px;
+    width: 180px;
+    padding: 0 32px;
+
+    text-align: center;
+    font-size: 16px;
+    font-family: "Libre Franklin", sans-serif;
+}
+
+/* WORDLE */
+#wordle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+#gameBoard {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.gameRow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.gameTile {
+    border: 2px solid var(--filled-tile-color);
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: bold;
+    vertical-align: middle;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    padding: 10px;
+    color: white;
+    width: 52px;
+    height: 52px;
+    font-family: "Libre Franklin", sans-serif;
+}
+
+.empty {
+    border: 2px solid var(--empty-tile-color);
+}
+
+.entered /* gray; word does not iclude letter */ {
+    background-color: rgb(58, 58, 60);
+    border: none;
+}
+
+.includes /* yellow; word includes letter in a different position */ {
+    background-color: rgb(181, 159, 59) !important;
+    border: none;
+}
+
+.correct /* green; letter is in the correct place */ {
+    background-color: rgb(83, 141, 78) !important;
+    border: none;
+}
+
+/* KEYBOARD */
+#keyboard {
+    height: 200px;
+    margin: 0 8px;
+    width: 484px;
+    position: inherit;
+}
+
+.keyboardRow {
+    display: flex;
+    width: 100%;
+    margin: 0 auto 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboardBtn {
+    font-family: "Libre Franklin", sans-serif;
+    font-size: 1.25em;
+    font-weight: bold;
+    border: 0;
+    padding: 0;
+    margin: 0 6px 0 0;
+    height: 58px;
+    width: 43px;
+    border-radius: 4px;
+    background-color: #818384;
+    color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.keyboardBtn.entered {
+    background-color: rgb(58, 58, 60) !important;
+}
+
+.specialBtn {
+    width: calc(43px * 1.5);
+}
+
+/* Animations */
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+  
+.alert {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-family: "Clear Sans", "Open Sans", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+
+    height: 40px;
+    width: 140px;
+}
+
+.alert.show {
+    opacity: 1;
+    visibility: visible;
+}
+  
+.alert button:hover {
+    background: #0056b3;
+}
+
+#showAlert {
+position: absolute;
+top: 80%;
+}
+
+@keyframes pop {
+    0% {    
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.gameTile.pop {
+    animation: pop 0.1s ease-in-out;
+}
+
+/* Ensure that .gameTile's initial styles do not conflict with the animation */
+.gameTile {
+    transition: transform 0.1s ease-in-out; /* Smooth transition for any transform changes */
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(2px);
+    }
+    12.5% {
+        transform: translateX(-4px);
+    }
+    25% {
+        transform: translateX(4px);
+    }
+    37.5% {
+        transform: translateX(-4px);
+    }
+    50% {
+        transform: translateX(4px);
+    }
+    62.5% {
+        transform: translateX(-4px);
+    }
+    75% {
+        transform: translateX(4px);
+    }
+    87.5% {
+        transform: translateX(-4px);
+    }
+    100% {
+        transform: translateX(2px);
+    }
+}
+
+.gameRow.shake {
+    animation: shake 0.5s ease;
+}
+
+/* Ensure that .gameRow's initial styles do not conflict with the animation */
+.gameRow {
+    transition: transform 1s ease-in-out; /* Smooth transition for any transform changes */
+}
