@@ -3,7 +3,6 @@ export function setupKeyboard() {
   const correctWord = possibleResponses[
     Math.floor(Math.random() * possibleResponses.length)
   ]; // sets correct word
-  console.log(correctWord);
 
   const keyboardContainer = document.getElementById("keyboard");
   const gameContainer = document.getElementById("game");
