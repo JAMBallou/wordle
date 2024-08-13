@@ -18,6 +18,7 @@ export function setupKeyboard() {
   thirdRow.classList.add("keyboardRow");
 
   function createKeyboardBtn(key, row) {
+    // fills in keyboard buttons on bottom of screen
     const keyBtn = document.createElement("button");
     keyBtn.textContent = key;
     keyBtn.classList.add("keyboardBtn");
@@ -54,6 +55,7 @@ export function setupKeyboard() {
         
         // check if response is valid
         if (filledTiles.length % 5 == 0) {
+          // word is 5 letters (complete)
           const rowNumber = Math.floor(filledTiles.length / 5);
           const currentRow = filledTiles.filter((tile) => tile.id >= (rowNumber - 1) * 5);
           const rowData = currentRow[0] ? currentRow.map((tile) => tile.textContent).reduce((a, b) => a + b).toLowerCase() : [];
@@ -63,10 +65,29 @@ export function setupKeyboard() {
             const correctLetters = [];
             const filledLetters = [];
 
+            if (document.querySelectorAll(".empty").length == 0) {
+              // All the tiles are full; trigger loss
+              showCustomAlert("Next time");
+              triggerGameEnd();
+            }
+
+            function triggerGameEnd() {
+              setTimeout(() => {
+                const startup = document.getElementById("startup");
+                const gameBoard = document.getElementById("gameBoard");
+                const keyboard = document.getElementById("keyboard");
+
+                startup.style.display = "flex";
+                gameBoard.innerHTML = "";
+                keyboard.innerHTML = "";
+              }, 3000);
+            }
+
             for (let i = 0; i < 5; i++) { // cycle through row
               for (let j = 0; j < 5; j++) { // cycle through correct word
 
                 function fillKeyData(className) {
+                  // adds className as a class to a key whose content matches a row item
                   const keys = document.querySelectorAll(".keyboardBtn");
                   for (let k = 0; k < keys.length; k++) {
                     if (keys[k].textContent == rowData[i].toUpperCase()) {
@@ -77,14 +98,15 @@ export function setupKeyboard() {
 
                 currentRow[i].classList.remove("filled");
                 if (correctWord[i] == rowData[i]) {
+                  // entered letter is correct
                   currentRow[i].classList.add("correct", "entered");
                   correctLetters.push(rowData[i]);
 
                   fillKeyData("correct");
 
                   if ([...new Set(correctLetters)].length == 5) {
+                    // trigger win
                     const emptyTiles = document.querySelectorAll(".empty");
-                    console.log(emptyTiles.length)
                     switch (emptyTiles.length) {
                       case 25:
                         showCustomAlert("Genius");
@@ -106,22 +128,16 @@ export function setupKeyboard() {
                         break;
                     }
 
-                    setTimeout(() => {
-                      const startup = document.getElementById("startup");
-                      const gameBoard = document.getElementById("gameBoard");
-                      const keyboard = document.getElementById("keyboard");
-
-                      startup.style.display = "flex";
-                      gameBoard.innerHTML = "";
-                      keyboard.innerHTML = "";
-                    }, 3000);
+                    triggerGameEnd();
                   }
                 } else if (correctWord.includes(rowData[i])) {
+                  // correct word includes entered letter
                   currentRow[i].classList.add("includes", "entered");
                   includedLetters.push(rowData[i]);
 
                   fillKeyData("includes");
                 } else {
+                  // correct word does not incude entered letter
                   currentRow[i].classList.add("entered");
                   filledLetters.push(rowData[i]);
 
@@ -139,6 +155,7 @@ export function setupKeyboard() {
             }
           }
         } else {
+          // entered word is not long enough
           const tiles = document.getElementsByClassName("gameTile");
           const filledTiles = [];
           for (const tile of tiles) {
@@ -146,7 +163,6 @@ export function setupKeyboard() {
               filledTiles.push(tile);
             }
           }
-          const rowNumber = Math.floor(filledTiles.length / 5);
 
           showCustomAlert("Not enough letters");
           shake(document.querySelector(".empty").parentElement);
