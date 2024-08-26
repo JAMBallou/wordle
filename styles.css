@@ -1,3 +1,9 @@
+* {
+    border: none;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html {
     --empty-tile-color: #3a3a3c;
     --filled-tile-color: #565758;
@@ -11,6 +17,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    overflow: hidden;
 }
 
 /* Startup screen */
@@ -145,11 +160,18 @@ h1 {
 }
 
 /* KEYBOARD */
+#game {
+    width: 95%;
+    height: 100%;
+    overflow: hidden;
+}
+
 #keyboard {
     height: 200px;
-    margin: 0 8px;
-    width: 484px;
-    position: inherit;
+    width: 100%;
+    position: relative;
+    left: 0.5%;
+    overflow: hidden;
 }
 
 .keyboardRow {
@@ -159,6 +181,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .keyboardBtn {
@@ -180,6 +203,13 @@ h1 {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+}
+
+@media (width < 600px) {
+    .keyboardBtn {
+        width: 36px;
+        height: 58px;
+    }
 }
 
 .keyboardBtn.entered {
