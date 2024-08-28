@@ -1,7 +1,7 @@
 import { setupGameBoard } from "./gameboard.js";
 import { setupKeyboard } from "./keyboard.js";
 
-document.querySelector(".startBtn").onclick = function() {start()};
+document.querySelector(".startBtn").onclick = start;
 
 function start() {
   const startup = document.getElementById("startup");
